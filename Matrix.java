@@ -16,31 +16,70 @@ class Matrix{
         matrix = data;
     }
 
-    public int[][] addMatrix(int [][] otherMatrix){
-      int[][] result = new int[otherMatrix.length][otherMatrix[0].length];
-      for(int i = 0; i < otherMatrix.length; i++){
-			     for(int j = 0; j < otherMatrix[i].length;j++){
-				         result[i][j] = otherMatrix[i][j] + this.matrix[i][j];
-			      }
-		     }
-     return new Matrix(row,column,result).getMatrix();
-    }
+    public static Matrix createMatrix(int noOfRow,int noOfColumn,int[][] values){
+		    return new Matrix(noOfRow,noOfColumn,values);
+	  }
 
-    public int[][] multiplyMatrix(int [][] otherMatrix){
-      int[][] result = new int[otherMatrix.length][otherMatrix[0].length];
-      for(int i = 0; i < 2; i++) {
-            for(int j = 0; j < 2; j++) {
-                for(int k = 0; k < otherMatrix.length; k++) {
-                    result[i][j] += this.matrix[i][k] * otherMatrix[k][j];
-                }
-            }
+    public boolean isEqualTo(Matrix expected){
+		    return Arrays.deepEquals(matrix,expected.matrix);
+	  }
+
+    public Matrix addMatrix(Matrix otherMatrix){
+  		if (otherMatrix.column!=this.column || otherMatrix.row!=this.row) {
+        throw new IllegalArgumentException("row and column must be same");
+  		}
+  		int [][]otherMatrixValues = otherMatrix.matrix;
+  		int[][] result = new int[row][column];
+  		for (int i=0;i<row;i++) {
+  			for (int j=0;j<column ;j++ ){
+  				result[i][j] = this.matrix[i][j] + otherMatrixValues[i][j];
+  			}
+  		}
+  		Matrix resultMatrix = new Matrix(row,column,result);
+  		return resultMatrix;
+	}
+    public Matrix multiplyWith(Matrix otherMatrix){
+      if (column!=otherMatrix.row || row !=otherMatrix.column) {
+        throw new IllegalArgumentException("row and column must be same");
+      }
+      int [][]result = new int[row][otherMatrix.column];
+      for (int i=0;i<row ;i++ ) {
+        for (int j=0;j<row ;j++ ) {
+          int sum = 0;
+          for (int k=0;k<column ;k++ ) {
+            sum	+=matrix[i][k]*otherMatrix.matrix[k][j];
+          }
+          result[i][j]=sum;
         }
-      return new Matrix(row,column,result).getMatrix();
+      }
+      return new Matrix(row,otherMatrix.column,result);
+  }
+  public int determinant(){
+    return findDeterminant(this.matrix);
+  }
+
+  private int findDeterminant(int [][] matrix){
+    int value = 0;
+    if(matrix.length == 1)
+      return(matrix[0][0]);
+    for(int i = 0 ; i < matrix.length ; i++){
+      int [][] coefficientMatrix = findCofficient(matrix,i);
+      int signValue = (i % 2 == 0) ? 1 : -1;
+      value += signValue*matrix[0][i]*(findDeterminant(coefficientMatrix));
     }
+    return value;
+  }
 
-
-
-    public int[][] getMatrix(){
-        return matrix;
+  private int[][] findCofficient(int [][]matrix,int index){
+    int[][]coefficient = new int[matrix.length-1][matrix.length-1];
+    for(int i = 1 ; i < matrix.length ; i++){
+      for(int j = 0 ; j < matrix.length ; j++){
+        if(j < index)
+          coefficient[i-1][j] = matrix[i][j];
+        if(j > index)
+          coefficient[i-1][j-1] = matrix[i][j];
+      }
     }
+    return coefficient;
+  }
 }
