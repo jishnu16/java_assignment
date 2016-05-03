@@ -22,7 +22,7 @@ public class MatrixTest {
   		int values2[][]={{10,20,30,40},{15,16,17,18},{29,12,1,12},{19,41,5,6}};
   		Matrix matrix2 = new MatrixBuilder(4,4,values2).build();
 
-  		int expected[][]= {{11,22,33,44},{20,22,24,26},{38,22,12,24},{32,55,20,22}};
+  		int expected[][]= {{13,22,33,44},{20,22,24,26},{38,22,12,24},{32,55,20,22}};
   		assertTrue(matrix1.addMatrix(matrix2).isEqualTo(new MatrixBuilder(4,4,expected).build()));
 	  }
 
