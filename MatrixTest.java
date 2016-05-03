@@ -19,7 +19,7 @@ public class MatrixTest {
   		int values1[][]={{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}};
   		Matrix matrix1 = new MatrixBuilder(4,4,values1).build();
 
-  		int values2[][]={{16,20,30,40},{15,16,17,18},{29,12,1,12},{19,41,5,6}};
+  		int values2[][]={{10,20,30,40},{15,16,17,18},{29,12,1,12},{19,41,5,6}};
   		Matrix matrix2 = new MatrixBuilder(4,4,values2).build();
 
   		int expected[][]= {{11,22,33,44},{20,22,24,26},{38,22,12,24},{32,55,20,22}};
