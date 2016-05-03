@@ -3,16 +3,16 @@ import org.junit.Test;
 
 public class CalculatorTest {
   @Test
-  public void evaluatesExpressionForPlus() {
+  public void evaluatesExpressionForSmallNumber() {
     Calculator calculator = new Calculator();
     int sum = calculator.evaluate("1+2+3");
     assertEquals(6, sum);
   }
 
   @Test
-  public void evaluatesExpressionForMinus() {
+  public void evaluatesExpressionForLargeNumber() {
     Calculator calculator = new Calculator();
-    int sum = calculator.evaluate("1+2+13-8");
-    assertEquals(8, sum);
+    int sum = calculator.evaluate("1+4+4+7");
+    assertEquals(16, sum);
   }
 }
